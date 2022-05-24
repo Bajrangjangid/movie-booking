@@ -1,9 +1,13 @@
 ### Movie Booking Service
 
+Application wants to build online movie ticket booking platform that create to both B2B (Theatre Partners) and B2C (User/Customer) clients.
 - A movie ticket booking system provides its customers the ability to purchase theatre seats online.
 - E-ticketing systems allow the customers to browse through movies currently being played and to book seats, anywhere and anytime.
 
-#### Step-1: Requirements and Goals of the System
+#### Step-1: Key Goal wants accomplished as a part of its solutions.
+##### - Enable theatre partners to onboard thier theatres over this platform and get access to a bigger customer base while going digital.
+##### - Enable end customers to browser the platform to get access to movies across differents cities, language and genres as well as book tickets in advance with a seamless experience
+
 Our ticket booking service should meet the following requirements:
 ##### Functional Requirements:
   - Our ticket booking service should be able to list down different cities where its affiliate cinemas are located.
@@ -12,9 +16,12 @@ Our ticket booking service should meet the following requirements:
   - The user should be able to select the show at a particular cinema and book their tickets.
   - The service should be able to show the user the seating arrangement of the cinema hall and the user should be able to select multiple seats according to their preference.
   - The user should be able to distinguish available seats from the booked ones.
+  - Buld booking and cancellation.
   - Users should be able to put a hold on the seats for five minutes before they make a payment to finalize the booking.
   - The user should be able to wait if there is a chance that seats might become available – e.g. when holds by other users expire.
   - Waiting customers should be serviced fairly in a first come first serve manner.
+  - 50% discount on thired ticket.
+  - 20% dicount on AfterNoon show.
 ##### Non-Functional Requirements:
   - The system would need to be highly concurrent. There will be multiple booking requests for the same seat at any particular point in time. The service should handle this gracefully and fairly.
   - The core thing of the service is ticket booking which means financial transactions. This means that the system should be secure and the database ACID compliant.
