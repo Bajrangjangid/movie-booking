@@ -121,7 +121,7 @@ To make the system simpler, we can use a third party payment solution. First, th
 
 Once the payment is complete and the ticket has been booked for the user, the orchestrator will send the message to the notification service. The purpose of the notification service is to send SMS, Email, and push notifications to the users, as the name implies.
 
-![image](https://user-images.githubusercontent.com/41802889/169105537-084694b4-e5fb-46d4-80d5-d6c30d61c131.png)
+![image](https://user-images.githubusercontent.com/41802889/170104366-c0940e66-9fa5-490b-b5f6-cb2aec6b706c.png)
 
 Since notifications involve calls to third-party APIs, such as Email or SMS servers, latencies can be involved. This is why we need to execute the tasks of the notification service asynchronously. This is the reason why we need a messaging queue to hold messages in a queue and pass them on to any of the relevant asynchronous workers connected to the queue as soon as they are available; i.e. an Email notification is passed to an available worker for Email, and so on.
 
