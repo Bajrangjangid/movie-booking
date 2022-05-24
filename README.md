@@ -55,7 +55,7 @@ Here are a few observations about the data we are going to store:
   - storing data in the databases and
   - work with cache servers to process reservations.
   
-![image](https://user-images.githubusercontent.com/41802889/169042676-c160e99c-4069-4a7c-bc21-eb2adc99b762.png)
+![image](https://user-images.githubusercontent.com/41802889/170101630-56bdd423-110b-40ff-96b5-607025b12781.png)
 
 #### Step-6: Detailed Component Design
 First, let’s try to build our service assuming if it is being served from a single server.
