@@ -4,8 +4,8 @@
 - E-ticketing systems allow the customers to browse through movies currently being played and to book seats, anywhere and anytime.
 
 #### Step-1: Requirements and Goals of the System
-- Our ticket booking service should meet the following requirements:
-###### Functional Requirements:
+Our ticket booking service should meet the following requirements:
+##### Functional Requirements:
   - Our ticket booking service should be able to list down different cities where its affiliate cinemas are located.
   - Once the user selects the city, the service should display the movies released in that particular city.
   - Once the user selects the movie, the service should display the cinemas running that movie and its available shows.
@@ -18,6 +18,25 @@
 ##### Non-Functional Requirements:
   - The system would need to be highly concurrent. There will be multiple booking requests for the same seat at any particular point in time. The service should handle this gracefully and fairly.
   - The core thing of the service is ticket booking which means financial transactions. This means that the system should be secure and the database ACID compliant.
+
+#### Step-2: Some Design Considerations
+- For simplicity, let’sassume our service doesn’t require user authentication.
+- The system will not handle partial ticket orders. Either user gets all the tickets they want, or they get nothing.
+- Fairness is mandatory for the system.
+- To stop system abuse, we can restrict users not to book more than ten seats.
+- We can assume that traffic would spike on popular/much-awaited movie releases, and the seats fill up pretty fast.
+- The system should be scalable, highly available to cope up with the surge in traffic.
+
+#### Step-3: Capacity Estimation
+##### Traffic estimates:
+- Let’s assume that our service has 3 billion page views per month and sells 10 million tickets a month.
+##### Storage estimates:
+- Let’s assume that we have 500 cities and on average each city has ten cinemas.
+- If there are 2000 seats in each cinema and on average, there are two shows every day.
+- Let’s assume each seat booking needs 50 bytes (IDs, NumberOfSeats, ShowID, MovieID, SeatNumbers, SeatStatus, Timestamp, etc.) to store in the database.
+- We would also need to store information about movies and cinemas, let’s assume it’ll take 50 bytes.
+- Total storage in a day for all shows of all cinemas of all cities: 500 cities*10 cinemas*2000 seats*2 shows*(50+50) bytes = 2GB / day.
+- To store 5 years of this data, we would need around 3.6PB. (Petabyte) 
 
 ![image](https://user-images.githubusercontent.com/41802889/170082826-a8a95960-9cd2-4cc0-ae2b-ddac0ef3f8bb.png)
 
