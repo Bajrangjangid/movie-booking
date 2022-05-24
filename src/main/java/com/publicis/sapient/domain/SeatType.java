@@ -2,7 +2,7 @@ package com.publicis.sapient.domain;
 
 public enum SeatType {
 
-    PREMIUM("Premium"), GOLD("Cold"), SILVER("Silver"), REGULAR("Regular");
+    PREMIUM("Premium"), GOLD("Gold"), SILVER("Silver"), REGULAR("Regular");
 
     private String status;
 

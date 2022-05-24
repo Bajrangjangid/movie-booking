@@ -36,14 +36,14 @@ public class ShowSeatServiceImpl implements ShowSeatService {
 		Show show = new Show();
 		Booking booking = new Booking();
 		if (cinemaSeatId != null) {
-			cinemaSeat = cinemaSeatRepository.getOne(cinemaSeatId);
+			cinemaSeat = cinemaSeatRepository.findById(cinemaSeatId).get();
 		}
 		if (showId != null) {
-			show = showRepository.getOne(showId);
+			show = showRepository.findById(showId).get();
 		}
 
 		if (bookingId != null) {
-			booking = bookingRepository.getOne(bookingId);
+			booking = bookingRepository.findById(bookingId).get();
 		}
 
 		for (ShowSeat showSeat : seats) {
@@ -68,14 +68,14 @@ public class ShowSeatServiceImpl implements ShowSeatService {
 		Show show = new Show();
 		Booking booking = new Booking();
 		if (cinemaSeatId != null) {
-			cinemaSeat = cinemaSeatRepository.getOne(cinemaSeatId);
+			cinemaSeat = cinemaSeatRepository.findById(cinemaSeatId).get();
 		}
 		if (showId != null) {
-			show = showRepository.getOne(showId);
+			show = showRepository.findById(showId).get();
 		}
 
 		if (bookingId != null) {
-			booking = bookingRepository.getOne(bookingId);
+			booking = bookingRepository.findById(bookingId).get();
 		}
 		seat.setShow(show);
 		seat.setCinemaSeat(cinemaSeat);

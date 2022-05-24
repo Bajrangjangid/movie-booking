@@ -42,13 +42,13 @@ public class MoviesServiceImpl implements MoviesService {
 	@Override
 	public Movie updateMovie(Movie movie) {
 		moviesRepository.saveAndFlush(movie);
-		return moviesRepository.getOne(movie.getMovieId());
+		return moviesRepository.findById(movie.getMovieId()).get();
 	}
 
 	@Override
 	public Movie addMovieToShow(Movie movie,Integer showId) {
 		moviesRepository.saveAndFlush(movie);
-		return moviesRepository.getOne(movie.getMovieId());
+		return moviesRepository.findById(movie.getMovieId()).get();
 	}
 
 	@Override

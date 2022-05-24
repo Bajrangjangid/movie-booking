@@ -40,7 +40,7 @@ public class CinemaHallServiceImpl implements CinemaHallService {
 
 	@Override
 	public CinemaHall removeCinemaHall(int cinemaHallId) {
-		CinemaHall c = cinemaHallRepository.getOne(cinemaHallId);
+		CinemaHall c = cinemaHallRepository.findById(cinemaHallId).get();
 		cinemaHallRepository.delete(c);
 		return c;
 	}
@@ -51,12 +51,12 @@ public class CinemaHallServiceImpl implements CinemaHallService {
 		Cinema cinema = cinemaRepository.findById(cinemaId).get();
 		cinemaHall.setCinema(cinema);
 
-		CinemaHall cu = cinemaHallRepository.getOne(cinemaHall.getCinemaHallId());
+		CinemaHall cu = cinemaHallRepository.findById(cinemaHall.getCinemaHallId()).get();
 		if(cu.getCinemaHallId() == 0) {
 			throw new ApiException(HttpStatus.NOT_FOUND,"Cinema seat not available");
 		}
 		cinemaHallRepository.saveAndFlush(cinemaHall);
-		return cinemaHallRepository.getOne(cinemaHall.getCinemaHallId());
+		return cinemaHallRepository.findById(cinemaHall.getCinemaHallId()).get();
 	}
 
 	@Override

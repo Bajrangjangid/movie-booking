@@ -25,12 +25,12 @@ public class CinemaSeatServiceImpl implements CinemaSeatService {
 	}
 
 	@Override
-	public CinemaSeat addCinemaSeat(CinemaSeat cinemaSeat,Integer cinemaHallId) throws ApiException {
+	public List<CinemaSeat> addCinemaSeat(List<CinemaSeat> cinemaSeats,Integer cinemaHallId) throws ApiException {
 		CinemaHall cinemaHall = cinemaHallRepository.findById(cinemaHallId).get();
-		cinemaSeat.setCinemaHall(cinemaHall);
+		cinemaSeats.forEach(cinemaSeat -> cinemaSeat.setCinemaHall(cinemaHall));
 
-		cinemaSeatRepository.saveAndFlush(cinemaSeat);
-		return cinemaSeat;
+		cinemaSeatRepository.saveAll(cinemaSeats);
+		return cinemaSeats;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CinemaSeatServiceImpl implements CinemaSeatService {
 
 	@Override
 	public CinemaSeat removeCinemaSeat(int cinemaSeatId) {
-		CinemaSeat c = cinemaSeatRepository.getOne(cinemaSeatId);
+		CinemaSeat c = cinemaSeatRepository.findById(cinemaSeatId).get();
 		cinemaSeatRepository.delete(c);
 		return c;
 	}
@@ -51,12 +51,12 @@ public class CinemaSeatServiceImpl implements CinemaSeatService {
 		CinemaHall cinemaHall = cinemaHallRepository.findById(cinemaHallId).get();
 		cinemaSeat.setCinemaHall(cinemaHall);
 
-		CinemaSeat cu = cinemaSeatRepository.getOne(cinemaSeat.getCinemaSeatId());
+		CinemaSeat cu = cinemaSeatRepository.findById(cinemaSeat.getCinemaSeatId()).get();
 		if(cu.getCinemaSeatId() == 0) {
 			throw new ApiException(HttpStatus.NOT_FOUND,"Cinema seat not available");
 		}
 		cinemaSeatRepository.saveAndFlush(cinemaSeat);
-		return cinemaSeatRepository.getOne(cinemaSeat.getCinemaSeatId());
+		return cinemaSeatRepository.findById(cinemaSeat.getCinemaSeatId()).get();
 	}
 
 	@Override

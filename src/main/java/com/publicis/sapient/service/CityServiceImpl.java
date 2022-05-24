@@ -31,7 +31,7 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public City updateCity(City city) {
 		cityRepository.saveAndFlush(city);
-		return cityRepository.getOne(city.getCityId());
+		return cityRepository.findById(city.getCityId()).get();
 	}
 
 

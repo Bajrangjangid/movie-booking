@@ -24,10 +24,10 @@ public class CinemaController {
 	CinemaService cinemaService;
 
 	@PostMapping("/cinema")
-	public ResponseEntity<Cinema> addCinema(@RequestBody Cinema cinema)
+	public ResponseEntity<Cinema> addCinema(@RequestBody Cinema cinema,@RequestParam Integer cityId)
 			throws ApiException {
 		try {
-			cinema = cinemaService.addCinema(cinema);
+			cinema = cinemaService.addCinema(cinema,cityId);
 		} catch (ApiException apiEx) {
 			throw apiEx;
 		} catch (Exception e) {

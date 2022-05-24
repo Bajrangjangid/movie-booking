@@ -40,11 +40,11 @@ public class CinemaSeatController {
 	}
 
 	@PostMapping("/cinemaSeat")
-	public ResponseEntity<CinemaSeat> addCinemaSeat(@RequestParam(required = false) Integer cinemaHallId,@RequestBody CinemaSeat t)
+	public ResponseEntity<List<CinemaSeat>> addCinemaSeat(@RequestParam(required = false) Integer cinemaHallId,@RequestBody List<CinemaSeat> cinemaSeats)
 			throws ApiException {
-		CinemaSeat cinemaSeat = null;
+		List<CinemaSeat> cinemaSeat = null;
 		try {
-			cinemaSeat = cinemaSeatService.addCinemaSeat(t,cinemaHallId);
+			cinemaSeat = cinemaSeatService.addCinemaSeat(cinemaSeats,cinemaHallId);
 		} catch (ApiException apiEx) {
 			throw apiEx;
 		} catch (Exception e) {

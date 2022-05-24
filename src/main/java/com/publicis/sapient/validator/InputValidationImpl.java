@@ -11,7 +11,8 @@ public class InputValidationImpl implements InputValidator {
 	}
 
 	public boolean usernameValidator(String username) {
-		return username.matches("[A-Za-z]{3,20}$");
+//		return username.matches("[A-Za-z]{3,20}$");
+		return true;
 	}
 
 	@Override

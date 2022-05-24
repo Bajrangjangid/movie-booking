@@ -45,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public Booking cancelBooking(int bookingId) throws ApiException {
-		Booking b = bookingRepository.getOne(bookingId);
+		Booking b = bookingRepository.findById(bookingId).get();
 		bookingRepository.delete(b);
 		return b;
 	}
@@ -172,7 +172,7 @@ public class BookingServiceImpl implements BookingService {
 
 	private Booking saveBookingDetails(Booking booking,Integer userId,Integer showId) throws ApiException {
 		if (userId != null) {
-			User user = userRepository.getOne(userId);
+			User user = userRepository.findById(userId).get();
 			booking.setUser(user);
 		}
 		if (showId != null) {

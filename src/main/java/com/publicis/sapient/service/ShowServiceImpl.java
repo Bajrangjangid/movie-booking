@@ -31,11 +31,11 @@ public class ShowServiceImpl implements ShowService {
 	public Show addShow(Show show, Integer cinemaHallId, Integer movieId) {
 
 		if (cinemaHallId != null) {
-			CinemaHall cinemaHall = cinemaHallRepository.getOne(cinemaHallId);
+			CinemaHall cinemaHall = cinemaHallRepository.findById(cinemaHallId).get();
 			show.setCinemaHall(cinemaHall);
 		}
 		if (movieId != null) {
-			Movie movie = moviesRepository.getOne(movieId);
+			Movie movie = moviesRepository.findById(movieId).get();
 			show.setMovie(movie);
 		}
 		showRepository.saveAndFlush(show);
@@ -46,11 +46,11 @@ public class ShowServiceImpl implements ShowService {
 	public Show updateShow(Show show, Integer cinemaHallId, Integer movieId) {
 
 		if (cinemaHallId != null) {
-			CinemaHall cinemaHall = cinemaHallRepository.getOne(cinemaHallId);
+			CinemaHall cinemaHall = cinemaHallRepository.findById(cinemaHallId).get();
 			show.setCinemaHall(cinemaHall);
 		}
 		if (movieId != null) {
-			Movie movie = moviesRepository.getOne(movieId);
+			Movie movie = moviesRepository.findById(movieId).get();
 			show.setMovie(movie);
 		}
 		showRepository.saveAndFlush(show);

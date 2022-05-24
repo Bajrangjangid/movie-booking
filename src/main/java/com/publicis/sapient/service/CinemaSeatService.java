@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface CinemaSeatService {
 
-	CinemaSeat addCinemaSeat(CinemaSeat cinemaSeat,Integer cinemaHallId) throws ApiException;
+	List<CinemaSeat> addCinemaSeat(List<CinemaSeat> cinemaSeat,Integer cinemaHallId) throws ApiException;
 
 	CinemaSeat removeCinemaSeat(int cinemaSeatId) throws ApiException;
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CinemaService {
 
-	Cinema addCinema(Cinema cinema) throws ApiException;
+	Cinema addCinema(Cinema cinema,Integer cityId) throws ApiException;
 
 	Cinema removeCinema(int cinemaId) throws ApiException;
 
