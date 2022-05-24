@@ -1,19 +1,25 @@
 ### Movie Booking Service
 
-A basic movie booking application should be able to meet the following requirements:
+- A movie ticket booking system provides its customers the ability to purchase theatre seats online.
+- E-ticketing systems allow the customers to browse through movies currently being played and to book seats, anywhere and anytime.
 
-#### Functional Requirements
+#### Step-1: Requirements and Goals of the System
+- Our ticket booking service should meet the following requirements:
+###### Functional Requirements:
+  - Our ticket booking service should be able to list down different cities where its affiliate cinemas are located.
+  - Once the user selects the city, the service should display the movies released in that particular city.
+  - Once the user selects the movie, the service should display the cinemas running that movie and its available shows.
+  - The user should be able to select the show at a particular cinema and book their tickets.
+  - The service should be able to show the user the seating arrangement of the cinema hall and the user should be able to select multiple seats according to their preference.
+  - The user should be able to distinguish available seats from the booked ones.
+  - Users should be able to put a hold on the seats for five minutes before they make a payment to finalize the booking.
+  - The user should be able to wait if there is a chance that seats might become available – e.g. when holds by other users expire.
+  - Waiting customers should be serviced fairly in a first come first serve manner.
+##### Non-Functional Requirements:
+  - The system would need to be highly concurrent. There will be multiple booking requests for the same seat at any particular point in time. The service should handle this gracefully and fairly.
+  - The core thing of the service is ticket booking which means financial transactions. This means that the system should be secure and the database ACID compliant.
 
-- The users should be able to select among a list of cities to display a list of movies showing in the area.
-- When the user selects a movie, the system displays a list of different theatre/cinemas where the movie is airing, with their showtimes.
-- The user can also make searches based on movie name, genre, and release date etc.
-- The system also displays movie descriptions and trailers.
-- The user should be able to select a show at a particular cinema and book a ticket.
-- The system displays seat availability and users can choose preferred seats.
-- After booking a ticket, the system will allow payment within a predefined time.
-- The system sends SMS or Email notifications for bookings, payments, and cancellations.
-- The system must make sure that no two customers can book the same seat.
-- Provide discount 20% discount on afternoon show and 50 % discount on thired ticket.
+![image](https://user-images.githubusercontent.com/41802889/170082826-a8a95960-9cd2-4cc0-ae2b-ddac0ef3f8bb.png)
 
 #### High Level Design
 The high level design of a basic movie booking system looks like this:
