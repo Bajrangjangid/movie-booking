@@ -127,3 +127,14 @@ Since notifications involve calls to third-party APIs, such as Email or SMS serv
 
 The messaging queue picks up the messages from the orchestrator. The notifications are held in the queue and forwarded on a first-come-first serve basis, or any other principle, to the available workers. Any messaging queue may be used for the purpose, but we have used Kafka. RabbitMQ is also a good choice. Python celery can be used for the workers.
 
+#### Step-8: Housting Solution (Cloud)
+
+##### CICD Portal
+
+![image](https://user-images.githubusercontent.com/41802889/170103126-0552fb1b-3d47-491e-8b5c-07f770cb8153.png)
+
+##### CICD Pipeline
+
+![image](https://user-images.githubusercontent.com/41802889/170103360-f3316a93-3bc8-4966-9207-db56f918770b.png)
+
+
