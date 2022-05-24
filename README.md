@@ -75,9 +75,16 @@ First, let’s try to build our service assuming if it is being served from a si
         - While waiting if all seats get booked, or there are fewer seats in the reservation pool than the user intend to book, the user is shown the error message.
         - User cancels the waiting and is taken back to the movie search page.
         - At max, a user can wait one hour, after that user’s session gets expired and the user is taken back to the movie search page.
-    - If seats are reserved successfully, the user has five minutes to pay for the reservation.
-    - After payment, booking is marked complete. If the user is not able to pay within five minutes, all their reserved seats are freed to become available to other users.
-   
+- If seats are reserved successfully, the user has five minutes to pay for the reservation.
+- After payment, booking is marked complete. If the user is not able to pay within five minutes, all their reserved seats are freed to become available to other users.
+
+![image](https://user-images.githubusercontent.com/41802889/170096061-664aae95-8ad9-472b-96c0-e6ac776d46b7.png)
+
+
+
+
+
+
 #### High Level Design
 The high level design of a basic movie booking system looks like this:
 
