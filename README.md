@@ -80,56 +80,38 @@ First, let’s try to build our service assuming if it is being served from a si
 
 ![image](https://user-images.githubusercontent.com/41802889/170096061-664aae95-8ad9-472b-96c0-e6ac776d46b7.png)
 
+##### How would the server keep track of all the active reservation that haven’t been booked yet? And how would the server keep track of all the waiting customers?
+ - We need two daemon services, one to keep track of all active reservations and to remove any expired reservation from the system, let’s call it ActiveReservationService.
+- The other service would be keeping track of all the waiting user requests, and as soon as the required number of seats become available, it’ll notify the (the longest waiting) user to choose the seats, let’s call it WaitingUserService.
 
+##### ActiveReservationService
+ActiveReservationsService keeping track of all active reservations
+- We can keep all the reservations of a ‘show’ in memory in a Linked HashMap in addition to keeping all the data in the database.
+- We would need a LinkedHashMap so that we can jump to any reservation to remove it when the booking is complete.
+- Also, since we will have expiry time associated with each reservation, the head of the linked HashMap will always point to the oldest reservation record, so that the reservation can be expired when the timeout is reached.
+- To store every reservation for every show, we can have a HashTable where the ‘key’ would be ‘ShowID’ and the ‘value’ would be the LinkedHashMap containing ‘BookingID’ and creation ‘Timestamp’.
+- In the database, we’ll store the reservation in the ‘Booking’ table, and the expiry time will be in the Timestamp column.
+- The ‘Status’ field will have a value of ‘(1) Reserved’ and as soon as a booking is complete, system will update the Status to ‘(2) Booked’ and remove the reservation record from the Linked HashMap of the relevant show. When the reservation is expired, we can either remove it from the Booking table or mark it ‘(3) Expired’ in addition to removing it from memory.
+- ActiveReservationsService will also work with the external financial service to process user payments.
+- Whenever a booking is completed, or a reservation gets expired, WaitingUsersService will get a signal, so that any waiting customer can be served.
 
+##### WaitingUsersService
+- Just like ActiveReservationsService, we can keep all the waiting users of a show in memory in a Linked HashMap.
+- We need a Linked HashMap so that we can jump to any user to remove them from the HashMap when the user cancels their request.
+- Also, since we are serving in a first-come- first-serve manner, the head of the Linked HashMap would always be pointing to the longest waiting user, so that whenever seats become available, we can serve users in a fair manner.
+- We will have a HashTable to store all the waiting users for every Show.
+The ‘key’ would be ‘ShowID’, and the ‘value’ would be a LinkedHashMap containing ‘UserIDs’ and their wait-start-time.
+- Clients can use Long Polling for keeping themselve updated for their reservation status.
+- Whenever seats become available, the server can use this request to notify the user.
 
+##### Reservation Expiration
+- On the server, ActiveReservationsService keeps track of expiry (based on reservation time) of active reservations.
+- As the client will be shown a timer (for the expiration time) which could be a little out of sync with the server, we can add a buffer of five seconds on the server to safeguard from a broken experience - such that – the client never times out after the server, preventing a successful purchase.
 
-
-#### High Level Design
-The high level design of a basic movie booking system looks like this:
-
-![image](https://user-images.githubusercontent.com/41802889/169036742-c09e4d8d-25d8-4bac-bdec-f1070ab40042.png)
-
-The user connects to the movie booking system and the movie booking system is connected to the systems of all the affiliated cities with theatre. The movie booking system allows users to make bookings at any of the affiliated theatre in selected city.
-
-#### How Movie Booking System Connects To The Theatre System
-Now optimizing the design further, let’s add a load balancer to connect the user to the movie booking system. Let’s also zoom into the ‘Theatre’ block to see how the movie booking system connects to the theatre’s system. There are two ways for your movie booking system to connect to the theatre’s system:
-
-#### Option 1: Connect To Theatre’s Database
-
-![image](https://user-images.githubusercontent.com/41802889/169042676-c160e99c-4069-4a7c-bc21-eb2adc99b762.png)
-
-The user connects to a load balancer to communicate with the application server. Since we have a scalable and highly available movie ticket booking application, we will serve the users’ requests using distributed app servers. Scaling the app servers horizontally allows the system to handle multiple parallel requests to make sure that the availability is not compromised even when the load is high.
-
-Upon the user’s prompt, the app server communicates with the cached data to check for shows etc. The cached data is regularly synched with the theatre’s database for up-to-date information. If the information isn’t available in the cache, the app server fetches it directly from the theatre’s database. The theatre’s database is linked with the theatre’s server, so the theatre can keep track of the bookings and payments.
-
-You can see in the diagram that alongside our Movie Booking System, other booking applications also connect to the same database. Furthermore, our Movie Booking System will not only connect to a single theatre’s database. It will connect to multiple databases for all the affiliate theatre.
-
-#### Option 2: Connect To Theatre’s API
-Instead of directly connecting to the theatre’s database, an alternative approach is for the movie booking system to connect to the theatre’s API. The theatre’s API connects with the theatre’s backend server to send the available seats information to the movie booking system’s server and handle reservation requests.
-
-So an alternative design for a movie booking application is the one shown in the diagram below:
-
-![image](https://user-images.githubusercontent.com/41802889/169047765-7e762fa3-81b6-4686-b04a-4dce9516d301.png)
-
-#### Multiple Requests For A Seat
-There may be cases where multiple movie booking applications attempt to book a seat for a show. The theatre’s server will use a locking mechanism to reserve and lock the seat for a few minutes for the user connecting from a movie booking application on a first come first serve basis. If a booking is not made by the user for, let’s say, 5 minutes, the theatre’s server unlocks the seat for all movie booking apps.
-
-#### Step-By-Step Movie Booking Workflow
-Here’s how the workflow of the movie booking system looks like:
-
-- The user visits the movie booking application.
-- The user chooses the location. Alternatively, GPS can be used to identify the user’s location if they’re connected to the system from a mobile phone. If they’re using a laptop, the ISP that they’re connected to can identify their location.
-- Once the location is selected/identified, the movies available in theatres in that location will be displayed as a list.
-- When the user picks a movie, all the available shows for the movie, with different timings and different theatres are displayed. This information is fetched from the cached database of the movie booking application.
-- The user picks a show, depending on their preferred showtime and preferred theatre.
-- Next, the system fetches the seat information from the theatre’s API and displays it to the user, often in the form of a map. The map will display a collection of available and occupied seats, where the user can only select from the available seats.
-- Once the user picks a seat (or seats), our movie booking application will lock the seat temporarily for a predefined interval, let’s say, 5 minutes. This makes sure no other user, from the same application or a different one cannot pick the same seat during this time. If the user does not book the ticket for the locked seats within the timeframe, the system releases the seat to other users. A booking is marked complete by the system once the payment is made.
-- Once the user selects a seat, they will be moved to the payment page, which informs them of the price, payment options and other details. We use a third party payment solution to handle the payment part for us.
-- Once the payment is carried out successfully, the app server notifies the theatre. The theatre creates a unique ticket ID and sends it to the application server. This completes a booking.
-- The movie booking application creates a ticket with the ticket ID and all the details of the ticket, including the theatre, movie, seat number, hall number, timings etc., and sends a copy to the user via Email, SMS or both.
-
-![image](https://user-images.githubusercontent.com/41802889/169103812-c9155982-b8f3-4c1f-baac-883a5747526d.png)
+#### Step-7: Concurrency
+- How to handle concurrency; such that no two users are able to book same seat ?
+- We can use transactions in SQL databases to avoid any clashes.
+- For example:- if we are using SQL server we can utilize Transaction Isolation Levels to lock the rows before we can update them.
 
 #### Third Party Payment
 
