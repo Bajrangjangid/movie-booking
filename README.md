@@ -5,8 +5,8 @@ Application wants to build online movie ticket booking platform that create to b
 - E-ticketing systems allow the customers to browse through movies currently being played and to book seats, anywhere and anytime.
 
 #### Step-1: Key Goal wants accomplished as a part of its solutions.
-##### - Enable theatre partners to onboard thier theatres over this platform and get access to a bigger customer base while going digital.
-##### - Enable end customers to browser the platform to get access to movies across differents cities, language and genres as well as book tickets in advance with a seamless experience
+  - Enable theatre partners to onboard thier theatres over this platform and get access to a bigger customer base while going digital.
+  - Enable end customers to browser the platform to get access to movies across differents cities, language and genres as well as book tickets in advance with a seamless experience
 
 Our ticket booking service should meet the following requirements:
 ##### Functional Requirements:
@@ -144,4 +144,10 @@ The messaging queue picks up the messages from the orchestrator. The notificatio
 
 ![image](https://user-images.githubusercontent.com/41802889/170103360-f3316a93-3bc8-4966-9207-db56f918770b.png)
 
-
+#### Step-9: Monitoring and Alert
+- DX APM Wily
+- Grafana
+- Prometheus
+- Kiali
+- Splunk
+- Jeager
